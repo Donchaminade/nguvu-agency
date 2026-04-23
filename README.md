@@ -56,7 +56,7 @@ Le projet est bâti sur une stack moderne et performante :
 Pour toute collaboration ou demande d'information :
 - **Email** : contact@nguvu.cm
 - **Téléphone** : +237 600 00 00 00
-- **Site Web** : [www.nguvu.cm](http://www.nguvu.cm)
+- **Développé par** : [Le_meneur Donchaminade](https://www.linkedin.com/in/chaminadeadjolou)
 
 ---
 *© 2026 NGUVU Agency. Partout où tu crées.*
