@@ -7,6 +7,7 @@ import { motion, useScroll, useTransform } from "motion/react";
 import { ArrowRight, Cpu, Sparkles, Globe, Zap, Menu, X, Plus, ChevronLeft, ChevronRight, Quote, ChevronUp, Instagram, Facebook, Linkedin, Phone, Mail, Youtube, Music as Tiktok } from "lucide-react";
 import React, { useState, useEffect, useCallback } from "react";
 import { AnimatePresence } from "motion/react";
+import logo from "./assets/logo.png";
 
 const FadeInView = ({ children, delay = 0, y = 30 }: { children: React.ReactNode, delay?: number, y?: number, key?: React.Key }) => (
   <motion.div
@@ -93,7 +94,7 @@ const TestimonialCarousel = () => {
               L'énergie<br /><span className="text-black/10">du succès.</span>
             </h2>
             <div className="flex gap-4">
-              <motion.button 
+              <motion.button
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={prevSlide}
@@ -101,7 +102,7 @@ const TestimonialCarousel = () => {
               >
                 <ChevronLeft className="w-5 h-5 group-active:-translate-x-1 transition-transform" />
               </motion.button>
-              <motion.button 
+              <motion.button
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={nextSlide}
@@ -125,7 +126,7 @@ const TestimonialCarousel = () => {
                   x: { type: "spring", stiffness: 300, damping: 30 },
                   opacity: { duration: 0.4 }
                 }}
-                whileHover={{ 
+                whileHover={{
                   scale: 1.01,
                   boxShadow: "0 20px 60px rgba(0,0,0,0.05)",
                   backgroundColor: "rgba(255,255,255,0.8)"
@@ -142,11 +143,11 @@ const TestimonialCarousel = () => {
                 </div>
               </motion.div>
             </AnimatePresence>
-            
+
             {/* Progress dots */}
             <div className="absolute bottom-0 left-0 flex gap-2">
               {testimonials.map((_, i) => (
-                <div 
+                <div
                   key={i}
                   className={`h-1 transition-all duration-500 ${i === currentIndex ? "w-12 bg-black" : "w-4 bg-black/10"}`}
                 />
@@ -164,21 +165,21 @@ const HeroSlideshow = () => {
     <div className="absolute inset-0 z-0 overflow-hidden bg-white">
       {/* Base Grid Layer */}
       <div className="absolute inset-0 bg-grid-premium opacity-100" />
-      
+
       {/* Accent Dots Layer */}
-      <motion.div 
-        animate={{ 
+      <motion.div
+        animate={{
           opacity: [0.3, 0.6, 0.3],
           scale: [1, 1.05, 1]
         }}
         transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute inset-0 bg-dots-accent" 
+        className="absolute inset-0 bg-dots-accent"
       />
-      
+
       {/* Gradient Vignette Mask */}
       <div className="absolute inset-0 bg-gradient-to-tr from-white via-white/50 to-transparent pointer-events-none" />
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/40 to-white pointer-events-none" />
-      
+
       {/* Technical Detail: Crosshair Corners */}
       <div className="absolute top-10 left-10 w-20 h-20 border-t border-l border-black/10 hidden sm:block" />
       <div className="absolute top-10 right-10 w-20 h-20 border-t border-r border-black/10 hidden sm:block" />
@@ -195,7 +196,7 @@ const TypewriterHero = () => {
     "Là où la marque vit",
     "Partout où tu crées"
   ];
-  
+
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
   const [currentText, setCurrentText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
@@ -206,23 +207,23 @@ const TypewriterHero = () => {
 
     const timeout = setTimeout(() => {
       const fullText = messages[currentMessageIndex];
-      
+
       if (!isDeleting) {
         setCurrentText(fullText.substring(0, currentText.length + 1));
-        
+
         if (currentText === fullText) {
           // If it's the last message, stop here
           if (currentMessageIndex === messages.length - 1) {
             setIsFinished(true);
             return;
           }
-          
+
           // Wait before deleting
           setTimeout(() => setIsDeleting(true), 2000);
         }
       } else {
         setCurrentText(fullText.substring(0, currentText.length - 1));
-        
+
         if (currentText === "") {
           setIsDeleting(false);
           setCurrentMessageIndex((prev) => (prev + 1) % messages.length);
@@ -234,7 +235,7 @@ const TypewriterHero = () => {
   }, [currentText, isDeleting, currentMessageIndex, isFinished]);
 
   return (
-    <h1 className="text-3xl sm:text-6xl lg:text-[100px] leading-[1.1] font-display font-black tracking-tighter uppercase mb-12 sm:mb-20 text-center lg:text-left text-black max-w-6xl">
+    <h1 className="text-5xl sm:text-6xl lg:text-[100px] leading-[1.0] font-display font-black tracking-tighter uppercase mb-12 sm:mb-20 text-center lg:text-left text-black max-w-6xl">
       <span className="opacity-40">Nous sommes </span> <br className="hidden lg:block" />
       <span className="relative">
         {currentText}
@@ -250,14 +251,14 @@ const TypewriterHero = () => {
   );
 };
 
-const ServiceModal = ({ 
-  service, 
-  isOpen, 
-  onClose 
-}: { 
-  service: any, 
-  isOpen: boolean, 
-  onClose: () => void 
+const ServiceModal = ({
+  service,
+  isOpen,
+  onClose
+}: {
+  service: any,
+  isOpen: boolean,
+  onClose: () => void
 }) => {
   if (!service) return null;
 
@@ -270,7 +271,7 @@ const ServiceModal = ({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-black/90 backdrop-blur-2xl"
+            className="absolute inset-0 bg-black/95"
           />
           <motion.div
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
@@ -278,17 +279,17 @@ const ServiceModal = ({
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             className="relative w-full max-w-6xl bg-zinc-900 border border-white/10 overflow-hidden rounded-3xl shadow-2xl flex flex-col lg:flex-row max-h-[90vh]"
           >
-            <button 
+            <button
               onClick={onClose}
-              className="absolute top-6 right-6 z-50 w-12 h-12 bg-black/50 backdrop-blur-xl border border-white/10 rounded-full flex items-center justify-center text-white hover:bg-white hover:text-black transition-all"
+              className="absolute top-6 right-6 z-50 w-12 h-12 bg-black border border-white/10 rounded-full flex items-center justify-center text-white hover:bg-white hover:text-black transition-all"
             >
               <X className="w-6 h-6" />
             </button>
 
             <div className="lg:w-1/2 relative h-64 lg:h-auto">
-              <img 
-                src={service.image} 
-                alt={service.title} 
+              <img
+                src={service.image}
+                alt={service.title}
                 className="w-full h-full object-cover grayscale"
                 referrerPolicy="no-referrer"
               />
@@ -308,7 +309,7 @@ const ServiceModal = ({
                   <p className="text-xl text-white/80 font-light leading-relaxed text-justify hyphens-auto">
                     {service.longDesc}
                   </p>
-                  
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-8 border-t border-white/10">
                     <div>
                       <h4 className="text-[10px] uppercase tracking-widest font-black text-white/40 mb-4">MÉTHODOLOGIE</h4>
@@ -365,7 +366,7 @@ const ScrollToTopButton = ({ show }: { show: boolean }) => {
           whileHover={{ scale: 1.1, backgroundColor: "#ffffff", color: "#000000" }}
           whileTap={{ scale: 0.9 }}
           onClick={scrollToTop}
-          className="fixed bottom-8 right-8 z-[60] w-14 h-14 bg-black/40 backdrop-blur-xl text-white rounded-full flex items-center justify-center shadow-2xl border border-white/10 group transition-colors"
+          className="fixed bottom-8 right-8 z-[60] w-14 h-14 bg-black text-white rounded-full flex items-center justify-center shadow-2xl border border-white/10 group transition-colors"
           aria-label="Back to top"
         >
           <ChevronUp className="w-6 h-6 transition-transform group-hover:-translate-y-1" />
@@ -380,7 +381,7 @@ const AINetworkBackground = () => (
     <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
       <defs>
         <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
-          <path d="M 10 0 L 0 0 0 10" fill="none" stroke="white" strokeWidth="0.1"/>
+          <path d="M 10 0 L 0 0 0 10" fill="none" stroke="white" strokeWidth="0.1" />
         </pattern>
       </defs>
       <rect width="100" height="100" fill="url(#grid)" />
@@ -463,7 +464,7 @@ const PartnersSection = () => {
                   <div className="font-display font-black text-2xl lg:text-3xl text-white/20 group-hover:text-white group-hover:scale-110 transition-all duration-700 tracking-tighter italic">
                     {partner.name}
                   </div>
-                  <motion.div 
+                  <motion.div
                     initial={{ width: 0 }}
                     whileHover={{ width: "100%" }}
                     className="absolute -bottom-2 left-0 h-[1px] bg-white/40"
@@ -483,14 +484,14 @@ const PartnersSection = () => {
 
 const WordTicker = () => {
   const words = [
-    "FORCE", "ÉNERGIE", "CRÉATION", "INNOVATION", "DIGITAL", 
-    "CAMEROUN", "AFRIQUE", "IMPACT", "AUTHENTICITÉ", "AGILITÉ", 
+    "FORCE", "ÉNERGIE", "CRÉATION", "INNOVATION", "DIGITAL",
+    "CAMEROUN", "AFRIQUE", "IMPACT", "AUTHENTICITÉ", "AGILITÉ",
     "VISION", "IA", "GEO", "HUMAN-FIRST", "NGUVU"
   ];
-  
+
   return (
     <div className="w-full overflow-hidden bg-black py-4 border-y border-white/10 relative z-20">
-      <motion.div 
+      <motion.div
         animate={{ x: [0, -1000] }}
         transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
         className="flex whitespace-nowrap gap-8"
@@ -529,71 +530,71 @@ export default function App() {
   ];
 
   const services = [
-    { 
-      num: "01", 
-      category: "Brand Architecture", 
-      title: "Stratégie de Marque", 
+    {
+      num: "01",
+      category: "Brand Architecture",
+      title: "Stratégie de Marque",
       desc: "Nous forgeons des identités uniques et puissantes. Du naming au design sensoriel, nous créons l'ADN qui rend votre marque inoubliable au Cameroun et au-delà.",
       longDesc: "Une marque forte est le fondement de toute croissance. Nous ne nous contentons pas de dessiner des logos ; nous créons des systèmes d'identité complets qui résonnent avec votre audience. Notre approche combine analyse culturelle locale et standards esthétiques internationaux pour positionner votre entreprise comme une référence incontournable.",
       features: ["Analyse de positionnement", "Architecture de marque", "Identité visuelle 360°", "Brand Book & Guidelines"],
       deliverables: ["Logotype", "Typographies", "Palette Chromatique", "Iconographie"],
       image: "https://images.unsplash.com/photo-1558655146-d09347e92766?q=80&w=1200&auto=format&fit=crop",
-      icon: <Cpu /> 
+      icon: <Cpu />
     },
-    { 
-      num: "02", 
-      category: "Digital Presence", 
-      title: "Marketing & Influence", 
+    {
+      num: "02",
+      category: "Digital Presence",
+      title: "Marketing & Influence",
       desc: "Amplifiez votre voix. Nous combinons social media management, publicité programmatique et marketing d'influence pour une visibilité qui génère des résultats.",
       longDesc: "Dans un océan de bruit numérique, nous faisons émerger votre message. NGUVU déploie des stratégies de contenu narratives et des campagnes d'acquisition basées sur les données. Nous connectons votre marque aux influenceurs qui partagent vos valeurs pour un impact authentique et mesurable.",
       features: ["Social Media Management", "Publicité (Ads)", "Marketing d'Influence", "Copywriting Stratégique"],
       deliverables: ["Planning Editorial", "Rapports d'engagement", "Contenus Viraux", "Campagnes Leads"],
       image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200&auto=format&fit=crop",
-      icon: <Zap /> 
+      icon: <Zap />
     },
-    { 
-      num: "03", 
-      category: "Product Engine", 
-      title: "Développement Digital", 
+    {
+      num: "03",
+      category: "Product Engine",
+      title: "Développement Digital",
       desc: "Des solutions techniques agiles. Sites web imersifs, applications mobiles robustes et plateformes e-commerce pensées pour la conversion.",
       longDesc: "La technologie doit servir l'expérience. Nous développons des plateformes rapides, sécurisées et intuitives. Que ce soit pour un site vitrine haut de gamme ou une application métier complexe, notre équipe technique utilise les frameworks les plus modernes pour garantir performance et évolutivité.",
       features: ["UI/UX Design Immersif", "Développement Full-Stack", "E-commerce & Paiements", "Maintenance Evolutive"],
       deliverables: ["Prototypage Figma", "Site Web Responsive", "App Mobile", "Tableaux de bord"],
       image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop",
-      icon: <Plus /> 
+      icon: <Plus />
     },
-    { 
-      num: "04", 
-      category: "Adaptive AI", 
-      title: "IA & Automation", 
+    {
+      num: "04",
+      category: "Adaptive AI",
+      title: "IA & Automation",
       desc: "Le futur de l'efficacité. Intégration d'agents intelligents, GEO (Generative Engine Optimization) et automatisation de vos processus métiers.",
       longDesc: "Ne subissez pas la révolution AI, menez-la. Nous intégrons l'intelligence artificielle générative pour automatiser vos tâches répétitives et améliorer votre service client via des agents conversationnels intelligents. Nous optimisons également votre présence pour les nouveaux moteurs de recherche IA (GEO).",
       features: ["Custom AI Agents", "Workflows Automation", "GEO & Semantic SEO", "Analyse Prédictive"],
       deliverables: ["Agents GPT", "Zaps & Webhooks", "Stratégie GEO", "Processus automatisés"],
       image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=1200&auto=format&fit=crop",
-      icon: <Globe /> 
+      icon: <Globe />
     },
-    { 
-      num: "05", 
-      category: "Visual Storytelling", 
-      title: "Production Médias", 
+    {
+      num: "05",
+      category: "Visual Storytelling",
+      title: "Production Médias",
       desc: "Raconter l'histoire derrière le produit. Photo, vidéo, motion design et podcasts produits avec un standard de qualité internationale.",
       longDesc: "L'image est le premier point de contact. Nous produisons des contenus visuels qui captent l'attention en moins de 3 secondes. De la direction artistique sur plateau au montage rythmé, nous créons des assets qui valorisent l'excellence de votre savoir-faire.",
       features: ["Shooting Photo Pro", "Video Clipping & Reels", "Motion Design 2D/3D", "Production Podcast"],
       deliverables: ["Rushs & Montages", "Templates Sociaux", "Bumper Ads", "Episodes Audio"],
       image: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1200&auto=format&fit=crop",
-      icon: <Cpu /> 
+      icon: <Cpu />
     },
-    { 
-      num: "06", 
-      category: "Growth Intelligence", 
-      title: "Consulting & Data", 
+    {
+      num: "06",
+      category: "Growth Intelligence",
+      title: "Consulting & Data",
       desc: "Décidez avec précision. Analyse de données, veille stratégique et accompagnement pour transformer vos insights en opportunités de croissance.",
       longDesc: "La donnée brute est inutile sans interprétation. Nous analysons vos performances et celles de vos concurrents pour identifier des leviers de croissance inexploités. Notre consulting vous offre une vision claire pour vos investissements marketing futurs.",
       features: ["Audit Performance", "Business Intelligence", "Growth Hacking", "Coaching Stratégique"],
       deliverables: ["Dashboard Data", "Audit SEO/Ads", "Plan de Croissance", "Veille Concurrentielle"],
       image: "https://images.unsplash.com/photo-1551288049-bbbda536639a?q=80&w=1200&auto=format&fit=crop",
-      icon: <Sparkles /> 
+      icon: <Sparkles />
     }
   ];
 
@@ -605,7 +606,7 @@ export default function App() {
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
   const [showScrollTop, setShowScrollTop] = useState(false);
-  
+
   const { scrollYProgress } = useScroll();
 
   const validateEmail = (email: string) => {
@@ -644,20 +645,20 @@ export default function App() {
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
-      
+
       const heroSection = document.getElementById('hero');
       const footerSection = document.getElementById('agence');
-      
+
       if (heroSection) {
         const heroBottom = heroSection.getBoundingClientRect().bottom;
         const footerTop = footerSection ? footerSection.getBoundingClientRect().top : Infinity;
-        
+
         setShowScrollTop(heroBottom < 0 && footerTop > window.innerHeight);
       }
 
       const sections = ["hero", "propos", "services", "valeurs", "ia", "contact"];
       let current = "hero";
-      
+
       for (const section of sections) {
         const element = document.getElementById(section);
         if (element) {
@@ -669,7 +670,7 @@ export default function App() {
       }
       setActiveSection(current);
     };
-    
+
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -685,13 +686,12 @@ export default function App() {
 
       {/* Navigation */}
       <ScrollToTopButton show={showScrollTop} />
-      <nav 
-        className={`fixed top-0 w-full z-50 transition-all duration-700 ${
-          scrolled ? "bg-black/95 backdrop-blur-2xl text-white shadow-2xl" : "bg-white/80 backdrop-blur-md text-black"
-        } border-b border-white/5`}
+      <nav
+        className={`fixed top-0 w-full z-50 transition-all duration-700 ${scrolled ? "bg-black text-white shadow-2xl" : "bg-white text-black"
+          } border-b border-white/5`}
       >
         {/* Top Info Bar */}
-        <div className={`w-full border-b transition-colors duration-700 ${scrolled ? "border-white/5 bg-black/80" : "border-black/5 bg-white/40"} backdrop-blur-md py-2 sm:py-3 px-6 md:px-16`}>
+        <div className={`w-full border-b transition-colors duration-700 ${scrolled ? "border-white/5 bg-black" : "border-black/5 bg-white"} py-2 sm:py-3 px-6 md:px-16`}>
           <div className={`max-w-[1400px] mx-auto flex justify-center sm:justify-between items-center text-[9px] sm:text-[10px] uppercase tracking-[0.2em] sm:tracking-[0.3em] font-black ${scrolled ? "text-white" : "text-black"}`}>
             <div className="flex items-center gap-4 sm:gap-6">
               <a href="tel:+237600000000" className={`flex items-center gap-2 transition-all px-2 sm:px-3 py-1 rounded-full ${scrolled ? "hover:bg-white/10 hover:text-white" : "hover:bg-black/10 hover:text-black"}`}>
@@ -706,8 +706,8 @@ export default function App() {
           </div>
         </div>
 
-        <div className={`max-w-[1400px] mx-auto px-6 md:px-16 flex justify-between items-center py-4 lg:py-6 transition-all duration-700 ${scrolled ? "lg:py-4" : "lg:py-8"}`}>
-          <motion.div 
+        <div className={`max-w-[1400px] mx-auto px-6 md:px-16 flex justify-between items-center py-2 lg:py-4 transition-all duration-700 ${scrolled ? "lg:py-2" : "lg:py-6"}`}>
+          <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
@@ -715,10 +715,9 @@ export default function App() {
           >
             <div className="flex items-center gap-3">
               <img 
-                src="https://media.base44.com/images/public/69df796b893674d35217f353/9af52c2df_logo.png" 
+                src={logo} 
                 alt="NGUVU Logo" 
-                className={`h-8 md:h-10 transition-all group-hover:scale-105 ${scrolled ? "invert" : ""}`}
-                referrerPolicy="no-referrer"
+                className={`h-20 md:h-40 transition-all duration-500 group-hover:scale-105 ${scrolled ? "invert" : ""}`}
               />
             </div>
           </motion.div>
@@ -732,30 +731,28 @@ export default function App() {
               { id: "ia", label: "IA" },
               { id: "contact", label: "Contact" }
             ].map((item) => (
-              <motion.a 
-                key={item.id} 
+              <motion.a
+                key={item.id}
                 href={`#${item.id}`}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
-                className={`text-xs uppercase tracking-[0.2em] font-bold transition-all relative group ${
-                  activeSection === item.id ? "opacity-100" : "opacity-60 hover:opacity-100"
-                }`}
+                className={`text-xs uppercase tracking-[0.2em] font-bold transition-all relative group ${activeSection === item.id ? "opacity-100" : "opacity-60 hover:opacity-100"
+                  }`}
               >
                 {item.label}
-                <motion.div 
+                <motion.div
                   initial={false}
                   animate={{ width: activeSection === item.id ? "100%" : "0%" }}
                   className={`absolute -bottom-1 left-0 h-[1.5px] ${scrolled ? "bg-white" : "bg-black"}`}
                 />
               </motion.a>
             ))}
-            <motion.button 
+            <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-              className={`px-8 py-3 text-[11px] font-black uppercase tracking-widest transition-all flex items-center gap-2 ${
-                scrolled ? "bg-white text-black hover:bg-white/80" : "bg-black text-white hover:bg-black/80"
-              }`}
+              className={`px-8 py-3 text-[11px] font-black uppercase tracking-widest transition-all flex items-center gap-2 ${scrolled ? "bg-white text-black hover:bg-white/80" : "bg-black text-white hover:bg-black/80"
+                }`}
               id="cta-nav"
             >
               Contact
@@ -768,46 +765,89 @@ export default function App() {
           </button>
         </div>
 
-        {/* Mobile Menu Overlay */}
-        <motion.div 
-          initial={{ opacity: 0, x: "100%" }}
-          animate={{ opacity: isMenuOpen ? 1 : 0, x: isMenuOpen ? 0 : "100%" }}
-          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          className={`fixed inset-0 bg-black z-40 md:hidden flex flex-col items-center justify-center gap-12 p-10 transition-all ${isMenuOpen ? "pointer-events-auto" : "pointer-events-none"}`}
-        >
-          {[
-            { id: "propos", label: "À propos" },
-            { id: "services", label: "Services" },
-            { id: "valeurs", label: "Valeurs" },
-            { id: "ia", label: "IA" },
-            { id: "contact", label: "Contact" }
-          ].map((item) => (
-            <motion.a 
-              key={item.id} 
-              href={`#${item.id}`}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={() => setIsMenuOpen(false)}
-              className="text-3xl font-display font-black uppercase tracking-tighter hover:text-white/60 transition-all"
-            >
-              {item.label}
-            </motion.a>
-          ))}
-          <motion.button 
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="mt-10 px-12 py-5 bg-white text-black font-black uppercase text-sm tracking-widest"
-            onClick={() => setIsMenuOpen(false)}
-          >
-            Contactez-nous
-          </motion.button>
-        </motion.div>
+        {/* Mobile Menu Sidebar */}
+        <AnimatePresence>
+          {isMenuOpen && (
+            <>
+              {/* Backdrop */}
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setIsMenuOpen(false)}
+                className="fixed inset-0 bg-black/80 z-[100] md:hidden"
+              />
+              
+              {/* Sidebar */}
+              <motion.div 
+                initial={{ x: "100%" }}
+                animate={{ x: 0 }}
+                exit={{ x: "100%" }}
+                transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                className="fixed top-0 right-0 h-full w-[280px] bg-black z-[101] md:hidden shadow-2xl flex flex-col border-l border-white/10"
+              >
+                <div className="p-6 flex justify-between items-center border-b border-white/5">
+                  <span className="text-[10px] uppercase tracking-[0.3em] font-black text-white/40">Navigation</span>
+                  <button 
+                    onClick={() => setIsMenuOpen(false)}
+                    className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/5 transition-colors"
+                  >
+                    <X className="w-5 h-5 text-white" />
+                  </button>
+                </div>
+
+                <div className="flex flex-col py-8 px-8 gap-6">
+                  {[
+                    { id: "propos", label: "À propos" },
+                    { id: "services", label: "Services" },
+                    { id: "valeurs", label: "Valeurs" },
+                    { id: "ia", label: "IA" },
+                    { id: "contact", label: "Contact" }
+                  ].map((item) => (
+                    <a 
+                      key={item.id} 
+                      href={`#${item.id}`}
+                      onClick={() => setIsMenuOpen(false)}
+                      className="text-base font-semibold uppercase tracking-widest text-white/70 hover:text-white transition-colors"
+                    >
+                      {item.label}
+                    </a>
+                  ))}
+                </div>
+
+                <div className="mt-auto p-8 space-y-8 bg-gradient-to-t from-white/[0.02] to-transparent">
+                  <button 
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                    className="w-full py-4 bg-white text-black font-bold uppercase text-[10px] tracking-[0.2em] hover:bg-white/90 transition-all"
+                  >
+                    Démarrer un projet
+                  </button>
+
+                  <div className="space-y-4">
+                    <p className="text-[8px] uppercase tracking-widest font-black opacity-30">Contactez-nous</p>
+                    <div className="flex flex-col gap-2">
+                      <a href="mailto:contact@nguvu.cm" className="text-[10px] font-medium text-white/50 hover:text-white transition-colors">contact@nguvu.cm</a>
+                      <div className="flex gap-4 pt-2">
+                        <Instagram className="w-4 h-4 text-white/30 hover:text-white transition-colors" />
+                        <Linkedin className="w-4 h-4 text-white/30 hover:text-white transition-colors" />
+                        <Facebook className="w-4 h-4 text-white/30 hover:text-white transition-colors" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
       </nav>
 
       {/* Hero Section */}
-      <section id="hero" className="relative min-h-screen flex flex-col justify-center pt-32 overflow-hidden bg-white">
+      <section id="hero" className="relative min-h-screen flex flex-col pt-16 overflow-hidden bg-white">
         <HeroSlideshow />
-        <div className="max-w-[1400px] mx-auto px-6 md:px-16 w-full relative z-10 flex flex-col flex-grow justify-center">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-16 w-full relative z-10 flex flex-col flex-grow justify-start pt-20 lg:pt-32">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -829,7 +869,7 @@ export default function App() {
                 </AnimatePresence>
               </div>
             </div>
-            
+
             <TypewriterHero />
 
             <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-8 lg:gap-12">
@@ -837,7 +877,7 @@ export default function App() {
                 whileHover={{ scale: 1.05, backgroundColor: "black", color: "white" }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })}
-                className="w-full sm:w-auto px-8 lg:px-12 py-4 lg:py-5 border-2 border-black text-black font-black uppercase text-[10px] sm:text-xs tracking-widest hover:border-black transition-all flex items-center justify-center gap-4 bg-white/40 backdrop-blur-md"
+                className="w-full sm:w-auto px-8 lg:px-12 py-4 lg:py-5 border-2 border-black text-black font-black uppercase text-[10px] sm:text-xs tracking-widest hover:border-black transition-all flex items-center justify-center gap-4 bg-white"
               >
                 Nos Services <Cpu className="w-4 h-4" />
               </motion.button>
@@ -845,7 +885,7 @@ export default function App() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-                className="w-full sm:w-auto px-8 lg:px-12 py-4 lg:py-5 bg-black text-white font-black uppercase text-[10px] sm:text-xs tracking-widest hover:bg-black/90 transition-all flex items-center justify-center gap-4 shadow-xl shadow-black/20"
+                className="w-full sm:w-auto px-8 lg:px-12 py-4 lg:py-5 bg-black text-white font-black uppercase text-[10px] sm:text-xs tracking-[0.3em] hover:bg-black/90 transition-all flex items-center justify-center gap-4 border-2 border-transparent"
               >
                 Démarrer un projet <ArrowRight className="w-4 h-4" />
               </motion.button>
@@ -854,14 +894,14 @@ export default function App() {
         </div>
 
         {/* Scroll Indicator */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 2 }}
           className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4"
         >
           <span className="text-[10px] uppercase tracking-[0.5em] font-bold opacity-30 italic text-black">Défiler</span>
-          <motion.div 
+          <motion.div
             animate={{ y: [0, 10, 0] }}
             transition={{ duration: 1.5, repeat: Infinity }}
             className="w-[1px] h-12 bg-gradient-to-b from-black/40 to-transparent"
@@ -871,7 +911,7 @@ export default function App() {
         {/* Floating Shapes */}
         <div className="absolute top-1/2 right-0 -translate-y-1/2 opacity-10 pointer-events-none">
           <motion.div
-            animate={{ 
+            animate={{
               y: [0, -50, 0],
               rotate: [0, 5, 0]
             }}
@@ -909,7 +949,7 @@ export default function App() {
                   </h2>
                 </div>
               </FadeInView>
-              
+
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6 sm:gap-8 mt-4">
                 {[
                   { tag: "IA", label: "Intégration agentique" },
@@ -929,7 +969,7 @@ export default function App() {
                 ))}
               </div>
             </div>
-            
+
             <div className="lg:col-span-7 flex flex-col gap-8 sm:gap-12 lg:pt-24">
               {[
                 "Dans le paysage en pleine effervescence du Cameroun, où l'innovation digitale rencontre une richesse culturelle inégalée, NGUVU émerge comme le catalyseur de la transformation.",
@@ -938,7 +978,7 @@ export default function App() {
               ].map((text, i) => (
                 <FadeInView key={i} delay={0.1 * i}>
                   <div className="flex gap-4 sm:gap-8 group">
-                    <span className="font-display font-black text-xl sm:text-2xl text-black/10 group-hover:text-black transition-colors">0{i+1}</span>
+                    <span className="font-display font-black text-xl sm:text-2xl text-black/10 group-hover:text-black transition-colors">0{i + 1}</span>
                     <p className="text-lg sm:text-2xl font-light text-black/80 leading-relaxed text-justify hyphens-auto">
                       {text}
                     </p>
@@ -956,9 +996,9 @@ export default function App() {
       <section className="py-32 lg:py-52 bg-white text-black relative z-10 text-center overflow-hidden">
         <div className="max-w-[1000px] mx-auto px-8">
           <FadeInView>
-             <h2 className="text-3xl sm:text-6xl font-display font-black tracking-tighter uppercase leading-tight mb-16">
-               « Transformer votre énergie en influence, votre potentiel en performance, vos idées en succès. »
-             </h2>
+            <h2 className="text-3xl sm:text-6xl font-display font-black tracking-tighter uppercase leading-tight mb-16">
+              « Transformer votre énergie en influence, votre potentiel en performance, vos idées en succès. »
+            </h2>
           </FadeInView>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 text-left">
             <FadeInView delay={0.2}>
@@ -990,13 +1030,13 @@ export default function App() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-6">
             {services.map((service, idx) => (
               <FadeInView key={idx} delay={idx * 0.1}>
-                <motion.div 
+                <motion.div
                   whileHover={{ y: -10 }}
                   onClick={() => setSelectedService(service)}
                   className="group flex flex-col bg-white/[0.02] border border-white/5 hover:border-white/20 transition-all duration-700 h-full overflow-hidden cursor-pointer"
                 >
                   <div className="relative h-64 overflow-hidden">
-                    <motion.img 
+                    <motion.img
                       whileHover={{ scale: 1.1 }}
                       transition={{ duration: 1.5, ease: "easeOut" }}
                       src={service.image}
@@ -1009,27 +1049,27 @@ export default function App() {
                       {service.num}
                     </div>
                   </div>
-                  
+
                   <div className="p-10 flex flex-col flex-grow gap-6 bg-gradient-to-b from-white/[0.02] to-transparent">
                     <div className="space-y-1">
                       <span className="text-[10px] uppercase tracking-[0.3em] font-black text-white/40">{service.category}</span>
                       <h3 className="text-2xl font-display font-black uppercase tracking-tight leading-none text-white">{service.title}</h3>
                     </div>
-                    
+
                     <p className="text-white/60 text-sm font-medium leading-relaxed text-justify hyphens-auto italic line-clamp-3">
                       {service.desc}
                     </p>
-                    
+
                     <div className="mt-auto flex items-center justify-between pt-6 border-t border-white/5">
                       <div className="flex items-center gap-3">
-                        <motion.div 
-                          animate={{ 
+                        <motion.div
+                          animate={{
                             y: [0, -3, 0],
                           }}
-                          transition={{ 
-                            duration: 3, 
-                            repeat: Infinity, 
-                            ease: "easeInOut" 
+                          transition={{
+                            duration: 3,
+                            repeat: Infinity,
+                            ease: "easeInOut"
                           }}
                           className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/30 group-hover:border-white/40 group-hover:text-white group-hover:bg-white/5 transition-all"
                         >
@@ -1050,10 +1090,10 @@ export default function App() {
             ))}
           </div>
         </div>
-        <ServiceModal 
-          service={selectedService} 
-          isOpen={!!selectedService} 
-          onClose={() => setSelectedService(null)} 
+        <ServiceModal
+          service={selectedService}
+          isOpen={!!selectedService}
+          onClose={() => setSelectedService(null)}
         />
       </section>
 
@@ -1105,10 +1145,10 @@ export default function App() {
       {/* IA Section */}
       <section id="ia" className="py-24 lg:py-52 bg-zinc-950 relative z-10 border-t border-white/5 overflow-hidden">
         <AINetworkBackground />
-        
+
         <div className="max-w-[1400px] mx-auto px-8 md:px-16 relative z-10">
           <div className="flex flex-col gap-24 lg:gap-32">
-            
+
             {/* IA Header Gateway */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 items-end">
               <div className="lg:col-span-8">
@@ -1120,7 +1160,7 @@ export default function App() {
                       <span className="text-stroke">L'Année</span><br />
                       <span className="relative">
                         Agentique.
-                        <motion.div 
+                        <motion.div
                           initial={{ width: 0 }}
                           whileInView={{ width: "100%" }}
                           transition={{ duration: 1, delay: 0.5 }}
@@ -1143,50 +1183,50 @@ export default function App() {
             {/* IA Integrated Services Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
               {[
-                { 
-                  tag: "GEO", 
-                  title: "Generative Engine Optimization", 
+                {
+                  tag: "GEO",
+                  title: "Generative Engine Optimization",
                   desc: "Positionnement stratégique dans les réponses des LLM comme ChatGPT, Gemini et Perplexity pour capturer l'audience de demain.",
                   details: ["SEO Sémantique", "Analyse de LLM", "Autorité de Source"]
                 },
-                { 
-                  tag: "AGT", 
-                  title: "Agents IA Autonomes", 
+                {
+                  tag: "AGT",
+                  title: "Agents IA Autonomes",
                   desc: "Conception d'agents intelligents capables d'interagir, de raisonner et d'automatiser des processus complexes 24/7.",
                   details: ["RAG (Retrieval)", "Custom GPTs", "Lead Nurturing"]
                 },
-                { 
-                  tag: "AUT", 
-                  title: "Workflows Agentiques", 
+                {
+                  tag: "AUT",
+                  title: "Workflows Agentiques",
                   desc: "Automatisation profonde de vos opérations marketing et commerciales par des orchestrations de multiples modèles d'IA.",
                   details: ["Chain of Thought", "Connecteurs API", "Automatisation 360"]
                 },
-                { 
-                  tag: "ANA", 
-                  title: "Intelligence de Données", 
+                {
+                  tag: "ANA",
+                  title: "Intelligence de Données",
                   desc: "Transformation de vos données brutes en insights actionnables grâce à l'analyse prédictive et au deep learning.",
                   details: ["Scoring Client", "Veille IA", "Prévision Trend"]
                 },
-                { 
-                  tag: "CRE", 
-                  title: "Créative AI Engine", 
+                {
+                  tag: "CRE",
+                  title: "Créative AI Engine",
                   desc: "Amplification de la créativité humaine par des outils de génération de contenus haut de gamme (Image, Vidéo, Audio).",
                   details: ["Direction Artistique", "LORA Training", "Multi-modal"]
                 },
-                { 
-                  tag: "CUS", 
-                  title: "Expériences Sur-Mesure", 
+                {
+                  tag: "CUS",
+                  title: "Expériences Sur-Mesure",
                   desc: "Hyper-personnalisation massive de l'expérience utilisateur par l'adaptation dynamique des interfaces via l'IA.",
                   details: ["UI Dynamique", "Recommandation", "Context Engine"]
                 }
               ].map((item, i) => (
                 <FadeInView key={i} delay={i * 0.1}>
-                  <motion.div 
+                  <motion.div
                     whileHover={{ y: -10, backgroundColor: "rgba(255, 255, 255, 0.05)" }}
                     className="p-10 border border-white/10 bg-white/[0.02] flex flex-col gap-10 group transition-all duration-500 h-full relative overflow-hidden rounded-3xl"
                   >
                     <div className="absolute top-0 right-0 w-32 h-32 bg-white opacity-[0.01] rounded-bl-full transform translate-x-16 -translate-y-16 group-hover:scale-150 transition-transform duration-700" />
-                    
+
                     <div className="flex justify-between items-start">
                       <div className="text-4xl font-display font-black text-white/40 group-hover:text-white transition-colors tracking-tighter">
                         {item.tag}
@@ -1269,8 +1309,8 @@ export default function App() {
               <form onSubmit={handleSubmit} className="bg-[#050505] p-8 lg:p-16 text-white space-y-8 lg:space-y-10 text-left">
                 <div className="space-y-2">
                   <label className="text-[10px] uppercase tracking-[0.4em] font-black opacity-40">Votre Nom</label>
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     required
                     className="w-full bg-transparent border-b border-white/10 py-4 outline-none focus:border-white transition-all text-lg lg:text-xl font-light"
                     placeholder="Jean Dupont"
@@ -1278,8 +1318,8 @@ export default function App() {
                 </div>
                 <div className="space-y-2">
                   <label className="text-[10px] uppercase tracking-[0.4em] font-black opacity-40">Email Professionnel</label>
-                  <input 
-                    type="email" 
+                  <input
+                    type="email"
                     value={email}
                     onChange={handleEmailChange}
                     required
@@ -1287,7 +1327,7 @@ export default function App() {
                     placeholder="jean@entreprise.com"
                   />
                   {emailError && (
-                    <motion.p 
+                    <motion.p
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       className="text-[10px] uppercase tracking-widest font-bold text-red-500 mt-2"
@@ -1298,14 +1338,14 @@ export default function App() {
                 </div>
                 <div className="space-y-2">
                   <label className="text-[10px] uppercase tracking-[0.4em] font-black opacity-40">Message</label>
-                  <textarea 
+                  <textarea
                     rows={4}
                     required
                     className="w-full bg-transparent border-b border-white/10 py-4 outline-none focus:border-white transition-all text-lg lg:text-xl font-light resize-none"
                     placeholder="Comment pouvons-nous vous aider ?"
                   />
                 </div>
-                <motion.button 
+                <motion.button
                   whileHover={{ x: 10, scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   type="submit"
@@ -1331,15 +1371,15 @@ export default function App() {
                 </h2>
               </div>
             </FadeInView>
-            
+
             <FadeInView delay={0.4}>
-              <motion.button 
+              <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="px-16 py-8 bg-white text-black text-base font-black uppercase tracking-[0.3em] hover:bg-white/90 transition-all relative group overflow-hidden"
               >
                 <span className="relative z-10">Parlons de votre projet</span>
-                <motion.div 
+                <motion.div
                   className="absolute inset-0 bg-black/10 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500"
                 />
               </motion.button>
@@ -1367,9 +1407,9 @@ export default function App() {
                       { name: "YouTube", icon: Youtube },
                       { name: "Facebook", icon: Facebook }
                     ].map(s => (
-                      <motion.a 
-                        key={s.name} 
-                        href="#" 
+                      <motion.a
+                        key={s.name}
+                        href="#"
                         whileHover={{ x: 5, scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         className="flex items-center gap-3 text-[11px] uppercase font-bold tracking-widest text-white/70 hover:text-white transition-all group"
@@ -1386,8 +1426,8 @@ export default function App() {
                   <h4 className="text-xs uppercase tracking-[0.3em] font-black text-white/60">Navigation</h4>
                   <div className="flex flex-col gap-4">
                     {["À propos", "Services", "Valeurs", "IA", "Contact"].map(s => (
-                      <motion.a 
-                        key={s} 
+                      <motion.a
+                        key={s}
                         href={`#${s === "À propos" ? "propos" : s.toLowerCase()}`}
                         whileHover={{ x: 5, scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
@@ -1418,7 +1458,7 @@ export default function App() {
       </section>
 
       {/* Progress Bar */}
-      <motion.div 
+      <motion.div
         className="fixed top-0 left-0 right-0 h-[2px] bg-white z-[100] origin-left"
         style={{ scaleX: scrollYProgress }}
       />
