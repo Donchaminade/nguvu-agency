@@ -8,6 +8,7 @@ import { ArrowRight, Cpu, Sparkles, Globe, Zap, Menu, X, Plus, ChevronLeft, Chev
 import React, { useState, useEffect, useCallback } from "react";
 import { AnimatePresence } from "motion/react";
 import logo from "./assets/logo.png";
+import consultingImg from "./assets/consulting-data.png";
 
 const FadeInView = ({ children, delay = 0, y = 30 }: { children: React.ReactNode, delay?: number, y?: number, key?: React.Key }) => (
   <motion.div
@@ -240,7 +241,7 @@ const TypewriterHero = () => {
       <span className="relative">
         {currentText}
         {!isFinished && (
-          <motion.span 
+          <motion.span
             animate={{ opacity: [1, 0] }}
             transition={{ duration: 0.5, repeat: Infinity }}
             className="inline-block w-1.5 sm:w-4 h-10 sm:h-24 bg-black ml-2 align-middle"
@@ -251,101 +252,385 @@ const TypewriterHero = () => {
   );
 };
 
-const ServiceModal = ({
+const ServiceDetail = ({
   service,
   isOpen,
-  onClose
+  onClose,
+  onContact
 }: {
   service: any,
   isOpen: boolean,
-  onClose: () => void
+  onClose: () => void,
+  onContact: (label: string) => void
 }) => {
   if (!service) return null;
 
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-10">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 40 }}
+          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          className="fixed inset-0 z-[200] bg-[#050505] overflow-y-auto"
+        >
+          {/* Hero Image */}
+          <div className="relative h-[50vh] md:h-[65vh] w-full overflow-hidden">
+            <img
+              src={service.image}
+              alt={service.title}
+              className="w-full h-full object-cover"
+              referrerPolicy="no-referrer"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-[#050505]" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#050505]/60 to-transparent" />
+
+            {/* Bouton Retour */}
+            <motion.button
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.3 }}
+              onClick={onClose}
+              className="absolute top-8 left-8 flex items-center gap-3 text-white group"
+            >
+              <div className="w-12 h-12 border border-white/30 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all">
+                <ChevronLeft className="w-5 h-5" />
+              </div>
+              <span className="text-[10px] uppercase tracking-[0.3em] font-black opacity-60 group-hover:opacity-100 transition-opacity">Retour</span>
+            </motion.button>
+
+            {/* Catégorie + Titre sur l'image */}
+            <div className="absolute bottom-10 left-8 md:left-16">
+              <motion.span
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                className="text-[10px] uppercase tracking-[0.5em] font-black text-white/50 block mb-3"
+              >
+                {service.category}
+              </motion.span>
+              <motion.h2
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                className="text-5xl md:text-8xl font-display font-black uppercase tracking-tighter leading-none text-white"
+              >
+                {service.title}
+              </motion.h2>
+            </div>
+          </div>
+
+          {/* Contenu */}
+          <div className="max-w-[1100px] mx-auto px-8 md:px-16 py-20 text-white">
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              className="text-xl md:text-2xl font-light text-white/70 leading-relaxed mb-20 text-justify hyphens-auto max-w-3xl"
+            >
+              {service.longDesc}
+            </motion.p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-16 border-t border-white/10 pt-16">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+              >
+                <h4 className="text-[10px] uppercase tracking-widest font-black text-white/30 mb-8">MÉTHODOLOGIE</h4>
+                <ul className="space-y-5">
+                  {service.features.map((f: string, i: number) => (
+                    <li key={i} className="flex items-start gap-4 group">
+                      <span className="text-white/20 font-black text-sm mt-0.5 group-hover:text-white transition-colors">0{i + 1}</span>
+                      <span className="text-base text-white/60 group-hover:text-white/90 transition-colors">{f}</span>
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6 }}
+              >
+                <h4 className="text-[10px] uppercase tracking-widest font-black text-white/30 mb-8">LIVRABLES</h4>
+                <div className="flex flex-wrap gap-3">
+                  {service.deliverables.map((d: string, i: number) => (
+                    <span key={i} className="px-4 py-2 border border-white/20 text-[10px] uppercase tracking-widest font-bold text-white/50 hover:border-white hover:text-white transition-all">
+                      {d}
+                    </span>
+                  ))}
+                </div>
+              </motion.div>
+            </div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.7 }}
+              className="mt-20 flex flex-col sm:flex-row gap-4"
+            >
+              <button
+                onClick={() => {
+                  onClose();
+                  onContact(service?.title || "");
+                }}
+                className="flex-1 py-6 bg-white text-black font-black uppercase text-xs tracking-[0.3em] hover:bg-white/90 transition-all flex items-center justify-center gap-3"
+              >
+                Démarrer ce projet <ArrowRight className="w-4 h-4" />
+              </button>
+              <button
+                onClick={onClose}
+                className="sm:w-48 py-6 border border-white/20 text-white font-black uppercase text-xs tracking-[0.3em] hover:border-white transition-all"
+              >
+                ← Retour
+              </button>
+            </motion.div>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+};
+
+// ─── Composant WhatsApp Form ────────────────────────────────────────────────
+const WhatsAppForm = ({
+  isOpen,
+  onClose,
+  serviceLabel = ""
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  serviceLabel?: string;
+}) => {
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [service, setService] = useState(serviceLabel);
+  const [message, setMessage] = useState("");
+
+  // Sync serviceLabel when it changes
+  React.useEffect(() => { setService(serviceLabel); }, [serviceLabel]);
+
+  const handleSend = (e: React.FormEvent) => {
+    e.preventDefault();
+    const num = "237657966906";
+    const text = encodeURIComponent(
+      `*Nouvelle demande NGUVU*\n\n` +
+      `👤 *Nom :* ${name}\n` +
+      `📞 *Téléphone :* ${phone}\n` +
+      `📧 *Email :* ${email}\n` +
+      `🎯 *Service souhaité :* ${service || "Non précisé"}\n` +
+      `💬 *Message :*\n${message}`
+    );
+    window.open(`https://wa.me/${num}?text=${text}`, "_blank");
+    onClose();
+  };
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <>
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-black/95"
+            className="fixed inset-0 bg-black/80 z-[300] md:hidden"
           />
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="relative w-full max-w-6xl bg-zinc-900 border border-white/10 overflow-hidden rounded-3xl shadow-2xl flex flex-col lg:flex-row max-h-[90vh]"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+            className="fixed inset-0 bg-black/70 z-[300] hidden md:block"
+          />
+          <motion.div
+            initial={{ y: "100%" }}
+            animate={{ y: 0 }}
+            exit={{ y: "100%" }}
+            transition={{ type: "spring", damping: 28, stiffness: 220 }}
+            className="fixed bottom-0 left-0 right-0 md:right-auto md:left-1/2 md:-translate-x-1/2 md:bottom-auto md:top-1/2 md:-translate-y-1/2 z-[301] bg-[#050505] border border-white/10 md:w-[560px] md:max-h-[90vh] overflow-y-auto"
           >
-            <button
-              onClick={onClose}
-              className="absolute top-6 right-6 z-50 w-12 h-12 bg-black border border-white/10 rounded-full flex items-center justify-center text-white hover:bg-white hover:text-black transition-all"
-            >
-              <X className="w-6 h-6" />
-            </button>
-
-            <div className="lg:w-1/2 relative h-64 lg:h-auto">
-              <img
-                src={service.image}
-                alt={service.title}
-                className="w-full h-full object-cover grayscale"
-                referrerPolicy="no-referrer"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-transparent to-transparent opacity-60" />
-            </div>
-
-            <div className="lg:w-1/2 p-8 md:p-16 overflow-y-auto custom-scrollbar">
-              <div className="space-y-8">
-                <div className="space-y-2">
-                  <span className="text-xs uppercase tracking-[0.5em] font-black text-white/30">{service.category}</span>
-                  <h2 className="text-4xl md:text-6xl font-display font-black uppercase tracking-tighter leading-tight text-white">
-                    {service.title}
-                  </h2>
-                </div>
-
-                <div className="space-y-6">
-                  <p className="text-xl text-white/80 font-light leading-relaxed text-justify hyphens-auto">
-                    {service.longDesc}
-                  </p>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-8 border-t border-white/10">
-                    <div>
-                      <h4 className="text-[10px] uppercase tracking-widest font-black text-white/40 mb-4">MÉTHODOLOGIE</h4>
-                      <ul className="space-y-3 text-sm text-white/60">
-                        {service.features.map((f: string, i: number) => (
-                          <li key={i} className="flex items-start gap-3 italic">
-                            <span className="text-white">+</span> {f}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    <div>
-                      <h4 className="text-[10px] uppercase tracking-widest font-black text-white/40 mb-4">LIVRABLES</h4>
-                      <div className="flex flex-wrap gap-2">
-                        {service.deliverables.map((d: string, i: number) => (
-                          <span key={i} className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-[9px] uppercase tracking-wider font-bold text-white/40">
-                            {d}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={onClose}
-                  className="w-full py-5 bg-white text-black font-black uppercase text-xs tracking-[0.3em] mt-12 hover:bg-white/90 transition-all"
-                >
-                  Fermer les détails
-                </motion.button>
+            {/* Header */}
+            <div className="flex justify-between items-center p-8 border-b border-white/5">
+              <div>
+                <p className="text-[9px] uppercase tracking-[0.4em] font-black text-white/30">Demande de devis</p>
+                <h3 className="text-2xl font-display font-black uppercase tracking-tighter text-white mt-1">Parlons-en</h3>
               </div>
+              <button onClick={onClose} className="w-10 h-10 border border-white/10 flex items-center justify-center hover:bg-white hover:text-black transition-all">
+                <X className="w-4 h-4" />
+              </button>
             </div>
+
+            {/* Form */}
+            <form onSubmit={handleSend} className="p-8 space-y-6">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label className="text-[9px] uppercase tracking-[0.3em] font-black text-white/30">Votre nom *</label>
+                  <input required value={name} onChange={e => setName(e.target.value)}
+                    className="w-full bg-transparent border-b border-white/10 py-3 outline-none focus:border-white transition-all text-sm font-light text-white placeholder:text-white/20"
+                    placeholder="Jean Dupont" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[9px] uppercase tracking-[0.3em] font-black text-white/30">Téléphone *</label>
+                  <input required value={phone} onChange={e => setPhone(e.target.value)}
+                    className="w-full bg-transparent border-b border-white/10 py-3 outline-none focus:border-white transition-all text-sm font-light text-white placeholder:text-white/20"
+                    placeholder="+237 6XX XXX XXX" />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <label className="text-[9px] uppercase tracking-[0.3em] font-black text-white/30">Email</label>
+                <input type="email" value={email} onChange={e => setEmail(e.target.value)}
+                  className="w-full bg-transparent border-b border-white/10 py-3 outline-none focus:border-white transition-all text-sm font-light text-white placeholder:text-white/20"
+                  placeholder="vous@entreprise.com" />
+              </div>
+              <div className="space-y-2">
+                <label className="text-[9px] uppercase tracking-[0.3em] font-black text-white/30">Service souhaité</label>
+                <select value={service} onChange={e => setService(e.target.value)}
+                  className="w-full bg-[#050505] border-b border-white/10 py-3 outline-none focus:border-white transition-all text-sm font-light text-white">
+                  <option value="">Choisir un service...</option>
+                  <option>Branding & Identité Visuelle</option>
+                  <option>Marketing Digital & Social Media</option>
+                  <option>Développement Digital</option>
+                  <option>IA & Automation</option>
+                  <option>Production Médias</option>
+                  <option>Consulting & Data</option>
+                  <option>GEO — Generative Engine Optimization</option>
+                  <option>Agents IA Autonomes</option>
+                  <option>Workflows Agentiques</option>
+                  <option>Intelligence de Données</option>
+                  <option>Créative AI Engine</option>
+                  <option>Expériences Sur-Mesure</option>
+                </select>
+              </div>
+              <div className="space-y-2">
+                <label className="text-[9px] uppercase tracking-[0.3em] font-black text-white/30">Votre message *</label>
+                <textarea required rows={3} value={message} onChange={e => setMessage(e.target.value)}
+                  className="w-full bg-transparent border-b border-white/10 py-3 outline-none focus:border-white transition-all text-sm font-light text-white placeholder:text-white/20 resize-none"
+                  placeholder="Décrivez votre projet, vos besoins, vos objectifs..." />
+              </div>
+              <button type="submit"
+                className="w-full py-5 bg-[#25D366] text-black font-black uppercase text-[10px] tracking-[0.3em] hover:bg-[#22c05e] transition-all flex items-center justify-center gap-3 mt-4">
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" /></svg>
+                Envoyer via WhatsApp
+              </button>
+              <p className="text-[8px] text-white/20 text-center uppercase tracking-widest">Vous serez redirigé vers WhatsApp pour confirmer l'envoi</p>
+            </form>
           </motion.div>
-        </div>
+        </>
+      )}
+    </AnimatePresence>
+  );
+};
+
+// ─── Page de Détail IA ───────────────────────────────────────────────────────
+const IADetailPage = ({
+  item,
+  isOpen,
+  onClose,
+  onContact
+}: {
+  item: any;
+  isOpen: boolean;
+  onClose: () => void;
+  onContact: (label: string) => void;
+}) => {
+  if (!item) return null;
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 40 }}
+          transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+          className="fixed inset-0 z-[200] bg-[#050505] overflow-y-auto"
+        >
+          {/* Header */}
+          <div className="border-b border-white/5 px-8 md:px-16 py-8 flex items-center justify-between">
+            <motion.button
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.2 }}
+              onClick={onClose}
+              className="flex items-center gap-3 text-white group"
+            >
+              <div className="w-12 h-12 border border-white/20 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all">
+                <ChevronLeft className="w-5 h-5" />
+              </div>
+              <span className="text-[10px] uppercase tracking-[0.3em] font-black text-white/40 group-hover:text-white transition-colors">Retour</span>
+            </motion.button>
+            <span className="text-5xl font-display font-black text-white/5 italic">{item.tag}</span>
+          </div>
+
+          {/* Content */}
+          <div className="max-w-[900px] mx-auto px-8 md:px-16 py-20 text-white">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="mb-16"
+            >
+              <span className="text-[9px] uppercase tracking-[0.5em] font-black text-white/30 block mb-4">{item.category}</span>
+              <h2 className="text-4xl md:text-7xl font-display font-black uppercase tracking-tighter leading-none text-white">{item.title}</h2>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="prose prose-invert max-w-none mb-16"
+            >
+              {item.content}
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              className="grid grid-cols-1 md:grid-cols-2 gap-12 border-t border-white/10 pt-12 mb-16"
+            >
+              <div>
+                <h4 className="text-[9px] uppercase tracking-widest font-black text-white/30 mb-6">Avantages Clés</h4>
+                <ul className="space-y-4">
+                  {item.avantages.map((a: string, i: number) => (
+                    <li key={i} className="flex items-start gap-3">
+                      <span className="text-white font-black text-sm mt-0.5">+</span>
+                      <span className="text-sm text-white/70 leading-relaxed">{a}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <h4 className="text-[9px] uppercase tracking-widest font-black text-white/30 mb-6">Technologies & Méthodes</h4>
+                <div className="flex flex-wrap gap-2">
+                  {item.details.map((d: string, i: number) => (
+                    <span key={i} className="px-3 py-1.5 border border-white/20 text-[9px] uppercase tracking-widest font-bold text-white/50 hover:border-white hover:text-white transition-all">{d}</span>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="flex flex-col sm:flex-row gap-4"
+            >
+              <button
+                onClick={() => { onClose(); onContact(item.title); }}
+                className="flex-1 py-6 bg-white text-black font-black uppercase text-[10px] tracking-[0.3em] hover:bg-white/90 transition-all flex items-center justify-center gap-3"
+              >
+                Démarrer ce projet <ArrowRight className="w-4 h-4" />
+              </button>
+              <button onClick={onClose} className="sm:w-48 py-6 border border-white/20 text-white font-black uppercase text-[10px] tracking-[0.3em] hover:border-white transition-all">
+                ← Retour
+              </button>
+            </motion.div>
+          </div>
+        </motion.div>
       )}
     </AnimatePresence>
   );
@@ -593,19 +878,23 @@ export default function App() {
       longDesc: "La donnée brute est inutile sans interprétation. Nous analysons vos performances et celles de vos concurrents pour identifier des leviers de croissance inexploités. Notre consulting vous offre une vision claire pour vos investissements marketing futurs.",
       features: ["Audit Performance", "Business Intelligence", "Growth Hacking", "Coaching Stratégique"],
       deliverables: ["Dashboard Data", "Audit SEO/Ads", "Plan de Croissance", "Veille Concurrentielle"],
-      image: "https://images.unsplash.com/photo-1551288049-bbbda536639a?q=80&w=1200&auto=format&fit=crop",
+      image: consultingImg,
       icon: <Sparkles />
     }
   ];
 
   const [heroIndex, setHeroIndex] = useState(0);
   const [selectedService, setSelectedService] = useState<any>(null);
+  const [selectedIA, setSelectedIA] = useState<any>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
-  const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [formServiceLabel, setFormServiceLabel] = useState("");
+
+  const openForm = (label = "") => { setFormServiceLabel(label); setIsFormOpen(true); };
 
   const { scrollYProgress } = useScroll();
 
@@ -616,7 +905,6 @@ export default function App() {
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    setEmail(value);
     if (value && !validateEmail(value)) {
       setEmailError("Veuillez entrer une adresse email valide.");
     } else {
@@ -626,13 +914,7 @@ export default function App() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!validateEmail(email)) {
-      setEmailError("Veuillez entrer une adresse email valide.");
-      return;
-    }
-    // Handle successful submission
-    alert("Merci pour votre message. Nous vous recontacterons bientôt.");
-    setEmail("");
+    openForm();
   };
 
   useEffect(() => {
@@ -694,9 +976,9 @@ export default function App() {
         <div className={`w-full border-b transition-colors duration-700 ${scrolled ? "border-white/5 bg-black" : "border-black/5 bg-white"} py-2 sm:py-3 px-6 md:px-16`}>
           <div className={`max-w-[1400px] mx-auto flex justify-center sm:justify-between items-center text-[9px] sm:text-[10px] uppercase tracking-[0.2em] sm:tracking-[0.3em] font-black ${scrolled ? "text-white" : "text-black"}`}>
             <div className="flex items-center gap-4 sm:gap-6">
-              <a href="tel:+237600000000" className={`flex items-center gap-2 transition-all px-2 sm:px-3 py-1 rounded-full ${scrolled ? "hover:bg-white/10 hover:text-white" : "hover:bg-black/10 hover:text-black"}`}>
+              <a href="tel:+237657966906" className={`flex items-center gap-2 transition-all px-2 sm:px-3 py-1 rounded-full ${scrolled ? "hover:bg-white/10 hover:text-white" : "hover:bg-black/10 hover:text-black"}`}>
                 <Phone className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
-                <span>+237 600 00 00 00</span>
+                <span>+237 657 966 906</span>
               </a>
               <a href="mailto:contact@nguvu.cm" className={`flex items-center gap-2 transition-all hidden sm:flex px-3 py-1 rounded-full ${scrolled ? "hover:bg-white/10 hover:text-white" : "hover:bg-black/10 hover:text-black"}`}>
                 <Mail className="w-3 h-3" />
@@ -714,9 +996,9 @@ export default function App() {
             className="flex flex-col items-start gap-1 group cursor-pointer"
           >
             <div className="flex items-center gap-3">
-              <img 
-                src={logo} 
-                alt="NGUVU Logo" 
+              <img
+                src={logo}
+                alt="NGUVU Logo"
                 className={`h-20 md:h-40 transition-all duration-500 group-hover:scale-105 ${scrolled ? "invert" : ""}`}
               />
             </div>
@@ -750,12 +1032,12 @@ export default function App() {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+              onClick={() => openForm()}
               className={`px-8 py-3 text-[11px] font-black uppercase tracking-widest transition-all flex items-center gap-2 ${scrolled ? "bg-white text-black hover:bg-white/80" : "bg-black text-white hover:bg-black/80"
                 }`}
               id="cta-nav"
             >
-              Contact
+              Devis Gratuit
             </motion.button>
           </div>
 
@@ -770,16 +1052,16 @@ export default function App() {
           {isMenuOpen && (
             <>
               {/* Backdrop */}
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 onClick={() => setIsMenuOpen(false)}
                 className="fixed inset-0 bg-black/80 z-[100] md:hidden"
               />
-              
+
               {/* Sidebar */}
-              <motion.div 
+              <motion.div
                 initial={{ x: "100%" }}
                 animate={{ x: 0 }}
                 exit={{ x: "100%" }}
@@ -788,7 +1070,7 @@ export default function App() {
               >
                 <div className="p-6 flex justify-between items-center border-b border-white/5">
                   <span className="text-[10px] uppercase tracking-[0.3em] font-black text-white/40">Navigation</span>
-                  <button 
+                  <button
                     onClick={() => setIsMenuOpen(false)}
                     className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/5 transition-colors"
                   >
@@ -804,8 +1086,8 @@ export default function App() {
                     { id: "ia", label: "IA" },
                     { id: "contact", label: "Contact" }
                   ].map((item) => (
-                    <a 
-                      key={item.id} 
+                    <a
+                      key={item.id}
                       href={`#${item.id}`}
                       onClick={() => setIsMenuOpen(false)}
                       className="text-base font-semibold uppercase tracking-widest text-white/70 hover:text-white transition-colors"
@@ -816,7 +1098,7 @@ export default function App() {
                 </div>
 
                 <div className="mt-auto p-8 space-y-8 bg-gradient-to-t from-white/[0.02] to-transparent">
-                  <button 
+                  <button
                     onClick={() => {
                       setIsMenuOpen(false);
                       document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
@@ -884,7 +1166,7 @@ export default function App() {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                onClick={() => openForm()}
                 className="w-full sm:w-auto px-8 lg:px-12 py-4 lg:py-5 bg-black text-white font-black uppercase text-[10px] sm:text-xs tracking-[0.3em] hover:bg-black/90 transition-all flex items-center justify-center gap-4 border-2 border-transparent"
               >
                 Démarrer un projet <ArrowRight className="w-4 h-4" />
@@ -1033,19 +1315,19 @@ export default function App() {
                 <motion.div
                   whileHover={{ y: -10 }}
                   onClick={() => setSelectedService(service)}
-                  className="group flex flex-col bg-white/[0.02] border border-white/5 hover:border-white/20 transition-all duration-700 h-full overflow-hidden cursor-pointer"
+                  className="group flex flex-col bg-white/[0.02] border border-white hover:border-white transition-all duration-700 h-full overflow-hidden cursor-pointer"
                 >
                   <div className="relative h-64 overflow-hidden">
                     <motion.img
-                      whileHover={{ scale: 1.1 }}
+                      whileHover={{ scale: 1.05 }}
                       transition={{ duration: 1.5, ease: "easeOut" }}
                       src={service.image}
                       alt={service.title}
-                      className="w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-80 transition-all duration-1000"
+                      className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-all duration-700"
                       referrerPolicy="no-referrer"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#050505] to-transparent opacity-60" />
-                    <div className="absolute top-6 right-8 font-display font-black text-6xl text-white/10 italic">
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent opacity-70" />
+                    <div className="absolute top-6 right-8 font-display font-black text-6xl text-white/20 italic">
                       {service.num}
                     </div>
                   </div>
@@ -1090,13 +1372,15 @@ export default function App() {
             ))}
           </div>
         </div>
-        <ServiceModal
-          service={selectedService}
-          isOpen={!!selectedService}
-          onClose={() => setSelectedService(null)}
-        />
       </section>
 
+      {/* Service Detail Page - Plein écran */}
+      <ServiceDetail
+        service={selectedService}
+        isOpen={!!selectedService}
+        onClose={() => setSelectedService(null)}
+        onContact={(label) => openForm(label)}
+      />
       <WordTicker />
 
       {/* Valeurs Section */}
@@ -1185,45 +1469,136 @@ export default function App() {
               {[
                 {
                   tag: "GEO",
+                  category: "Visibilité IA",
                   title: "Generative Engine Optimization",
-                  desc: "Positionnement stratégique dans les réponses des LLM comme ChatGPT, Gemini et Perplexity pour capturer l'audience de demain.",
-                  details: ["SEO Sémantique", "Analyse de LLM", "Autorité de Source"]
+                  desc: "Positionnez votre marque dans les réponses des LLM comme ChatGPT, Gemini et Perplexity.",
+                  details: ["SEO Sémantique", "Analyse de LLM", "Autorité de Source", "Knowledge Graph", "Structured Data"],
+                  avantages: [
+                    "Visibilité dans les moteurs de recherche de demain (ChatGPT, Perplexity, Gemini)",
+                    "Positionnement comme source d'autorité dans votre secteur",
+                    "Trafic qualifié issu des nouvelles requêtes conversationnelles",
+                    "Avantage concurrentiel durable sur les marques non optimisées"
+                  ],
+                  content: (
+                    <div className="space-y-6 text-white/70 leading-relaxed">
+                      <p className="text-lg">Le <strong className="text-white font-bold">GEO (Generative Engine Optimization)</strong> est la nouvelle frontière du référencement digital. Contrairement au SEO traditionnel qui cible les moteurs de recherche classiques, le GEO vous positionne directement dans les <mark className="bg-white/10 text-white px-1 rounded">réponses générées par les IA</mark> comme ChatGPT, Gemini, Claude et Perplexity.</p>
+                      <p>Aujourd'hui, des millions d'utilisateurs posent leurs questions directement à une IA plutôt que d'effectuer une recherche Google. Si votre marque n'est pas <strong className="text-white">citée, référencée ou reconnue</strong> par ces systèmes, vous êtes invisible pour une part croissante de votre audience.</p>
+                      <p>Chez NGUVU, nous audions votre <mark className="bg-white/10 text-white px-1 rounded">présence sémantique</mark> actuelle dans les LLM, identifions les gaps, et construisons une stratégie de contenu et de données structurées qui fait de votre marque une <strong className="text-white">source d'autorité incontournable</strong> pour les IA génératives.</p>
+                      <p className="text-white/40 text-sm italic border-l-2 border-white/10 pl-4">« Les marques qui dominent le GEO aujourd'hui captureront 80% de l'audience IA de demain. »</p>
+                    </div>
+                  )
                 },
                 {
                   tag: "AGT",
+                  category: "Automatisation Intelligente",
                   title: "Agents IA Autonomes",
-                  desc: "Conception d'agents intelligents capables d'interagir, de raisonner et d'automatiser des processus complexes 24/7.",
-                  details: ["RAG (Retrieval)", "Custom GPTs", "Lead Nurturing"]
+                  desc: "Des agents intelligents qui travaillent pour vous 24h/24, automatisant vos interactions clients et vos processus internes.",
+                  details: ["RAG (Retrieval)", "Custom GPTs", "Lead Nurturing", "Chatbots Avancés", "Orchestration Multi-Agent"],
+                  avantages: [
+                    "Disponibilité 24h/24 — 7j/7 sans coût humain supplémentaire",
+                    "Qualification et nurturing automatique des leads entrants",
+                    "Réduction du temps de réponse client de 90%",
+                    "Scalabilité instantanée sans recrutement"
+                  ],
+                  content: (
+                    <div className="space-y-6 text-white/70 leading-relaxed">
+                      <p className="text-lg">Un <strong className="text-white font-bold">Agent IA Autonome</strong> est un programme capable de <mark className="bg-white/10 text-white px-1 rounded">percevoir, raisonner et agir</mark> de manière indépendante pour atteindre un objectif défini. Il ne se contente pas de répondre à des questions — il prend des décisions, exécute des tâches et apprend de ses interactions.</p>
+                      <p>Nous concevons des agents sur mesure, intégrés à vos outils existants (CRM, WhatsApp, site web, email), capables de <strong className="text-white">qualifier vos prospects, répondre à vos clients, planifier des rendez-vous</strong> et générer des rapports automatiquement.</p>
+                      <p>Grâce à la technologie <mark className="bg-white/10 text-white px-1 rounded">RAG (Retrieval-Augmented Generation)</mark>, vos agents disposent d'une connaissance précise et actualisée de vos produits, services et politiques — garantissant des réponses toujours pertinentes et fiables.</p>
+                      <p className="text-white/40 text-sm italic border-l-2 border-white/10 pl-4">« Un agent IA bien configuré vaut une équipe entière de support client. »</p>
+                    </div>
+                  )
                 },
                 {
                   tag: "AUT",
+                  category: "Efficacité Opérationnelle",
                   title: "Workflows Agentiques",
-                  desc: "Automatisation profonde de vos opérations marketing et commerciales par des orchestrations de multiples modèles d'IA.",
-                  details: ["Chain of Thought", "Connecteurs API", "Automatisation 360"]
+                  desc: "Automatisation profonde de vos opérations marketing, commerciales et administratives par des orchestrations d'IA.",
+                  details: ["Chain of Thought", "Connecteurs API", "Automatisation 360", "N8N / Make", "Webhooks"],
+                  avantages: [
+                    "Élimination des tâches répétitives à faible valeur ajoutée",
+                    "Réduction des erreurs humaines dans les processus critiques",
+                    "Gain de temps estimé à 15-30h par semaine par équipe",
+                    "Connexion fluide entre tous vos outils (CRM, email, social, analytics)"
+                  ],
+                  content: (
+                    <div className="space-y-6 text-white/70 leading-relaxed">
+                      <p className="text-lg">Un <strong className="text-white font-bold">Workflow Agentique</strong> est une chaîne d'IA interconnectées qui <mark className="bg-white/10 text-white px-1 rounded">planifient, exécutent et contrôlent</mark> des processus métier complexes sans intervention humaine constante.</p>
+                      <p>Imaginez : un prospect remplit un formulaire sur votre site → un agent IA analyse son profil → envoie un email personnalisé → programme un appel → notifie votre commercial via WhatsApp → mise à jour automatique du CRM. Tout cela en <strong className="text-white">moins de 3 minutes, sans intervention humaine</strong>.</p>
+                      <p>Nous utilisons des plateformes comme <mark className="bg-white/10 text-white px-1 rounded">Make, N8N et des LLMs orchestrés</mark> pour créer des pipelines d'automatisation robustes qui s'adaptent à vos processus spécifiques et évoluent avec votre business.</p>
+                      <p className="text-white/40 text-sm italic border-l-2 border-white/10 pl-4">« L'automatisation intelligente, c'est libérer votre équipe pour ce qui compte vraiment. »</p>
+                    </div>
+                  )
                 },
                 {
                   tag: "ANA",
+                  category: "Data & Insights",
                   title: "Intelligence de Données",
-                  desc: "Transformation de vos données brutes en insights actionnables grâce à l'analyse prédictive et au deep learning.",
-                  details: ["Scoring Client", "Veille IA", "Prévision Trend"]
+                  desc: "Vos données brutes transformées en décisions stratégiques grâce à l'analyse prédictive et au machine learning.",
+                  details: ["Scoring Client", "Veille IA", "Prévision Trend", "Dashboard Analytics", "Segmentation IA"],
+                  avantages: [
+                    "Identification des clients à fort potentiel avant vos concurrents",
+                    "Prévisions de ventes et de tendances marché avec haute précision",
+                    "Dashboards en temps réel accessibles à toute l'équipe",
+                    "Décisions basées sur des données, non sur des intuitions"
+                  ],
+                  content: (
+                    <div className="space-y-6 text-white/70 leading-relaxed">
+                      <p className="text-lg">La <strong className="text-white font-bold">donnée est le nouvel actif stratégique</strong> de votre entreprise. Mais sans analyse intelligente, elle reste <mark className="bg-white/10 text-white px-1 rounded">muette et inutilisée</mark>. Nous transformons vos données brutes en intelligence opérationnelle actionnable.</p>
+                      <p>Notre approche combine <strong className="text-white">machine learning, analyse comportementale et modèles prédictifs</strong> pour vous donner une vision claire : qui sont vos meilleurs clients, quand ils achètent, pourquoi ils partent, et quels marchés attaquer ensuite.</p>
+                      <p>Nous construisons des <mark className="bg-white/10 text-white px-1 rounded">tableaux de bord personnalisés</mark> connectés à vos sources de données (Google Analytics, Meta Ads, CRM, e-commerce) pour offrir à vos équipes une visibilité en temps réel sur leurs <strong className="text-white">KPIs stratégiques</strong>.</p>
+                      <p className="text-white/40 text-sm italic border-l-2 border-white/10 pl-4">« Décider sans données, c'est naviguer sans boussole. »</p>
+                    </div>
+                  )
                 },
                 {
                   tag: "CRE",
+                  category: "Création Augmentée",
                   title: "Créative AI Engine",
-                  desc: "Amplification de la créativité humaine par des outils de génération de contenus haut de gamme (Image, Vidéo, Audio).",
-                  details: ["Direction Artistique", "LORA Training", "Multi-modal"]
+                  desc: "Amplifiez votre créativité avec l'IA : génération d'images, de vidéos, de voix et de contenus multimodaux de niveau studio.",
+                  details: ["Direction Artistique", "LORA Training", "Multi-modal", "Midjourney / DALL·E", "Sora / Runway"],
+                  avantages: [
+                    "Production de contenus visuels 10x plus rapide qu'un studio traditionnel",
+                    "Cohérence de votre identité visuelle à travers tous vos contenus",
+                    "Modèles IA entraînés spécifiquement sur votre charte graphique",
+                    "Contenus adaptés à chaque format (Réels, Stories, Ads, Bannières)"
+                  ],
+                  content: (
+                    <div className="space-y-6 text-white/70 leading-relaxed">
+                      <p className="text-lg">Le <strong className="text-white font-bold">Créative AI Engine</strong> de NGUVU place l'intelligence artificielle au service de votre vision artistique. Nous ne remplaçons pas la créativité humaine — nous <mark className="bg-white/10 text-white px-1 rounded">l'amplifions à une échelle impossible</mark> à atteindre autrement.</p>
+                      <p>Nous entraînons des modèles <strong className="text-white">LoRA personnalisés</strong> sur votre identité visuelle : vos couleurs, votre typographie, vos personnages, vos environnements. Résultat : une IA qui génère des contenus <mark className="bg-white/10 text-white px-1 rounded">100% cohérents avec votre marque</mark>, à la demande.</p>
+                      <p>De la génération d'images pour vos campagnes publicitaires à la <strong className="text-white">création de vidéos promotionnelles via Sora ou Runway</strong>, en passant par la clonation vocale pour vos podcasts et spots audio — nous couvrons tout le spectre de la création augmentée.</p>
+                      <p className="text-white/40 text-sm italic border-l-2 border-white/10 pl-4">« La créativité sans limites, c'est maintenant une réalité avec l'IA. »</p>
+                    </div>
+                  )
                 },
                 {
                   tag: "CUS",
+                  category: "UX Personnalisée",
                   title: "Expériences Sur-Mesure",
-                  desc: "Hyper-personnalisation massive de l'expérience utilisateur par l'adaptation dynamique des interfaces via l'IA.",
-                  details: ["UI Dynamique", "Recommandation", "Context Engine"]
+                  desc: "Des interfaces qui s'adaptent dynamiquement à chaque utilisateur grâce à l'IA — pour une expérience unique et mémorable.",
+                  details: ["UI Dynamique", "Recommandation", "Context Engine", "A/B IA", "Personnalisation Temps Réel"],
+                  avantages: [
+                    "Augmentation du taux de conversion jusqu'à +45% grâce à la personnalisation",
+                    "Réduction du taux de rebond par une expérience adaptée au profil de chaque visiteur",
+                    "Recommandations produit/service intelligentes qui augmentent le panier moyen",
+                    "Fidélisation accrue grâce à une expérience toujours pertinente et personnelle"
+                  ],
+                  content: (
+                    <div className="space-y-6 text-white/70 leading-relaxed">
+                      <p className="text-lg">L'<strong className="text-white font-bold">expérience utilisateur personnalisée</strong> est la prochaine révolution UX. Grâce à l'IA, votre site web ou application peut <mark className="bg-white/10 text-white px-1 rounded">s'adapter en temps réel</mark> à chaque visiteur : ses préférences, son comportement, sa localisation, son historique.</p>
+                      <p>Nous intégrons des <strong className="text-white">Context Engines</strong> qui analysent en continu les signaux comportementaux pour ajuster dynamiquement le contenu affiché, les recommandations proposées et les CTAs présentés — offrant à chaque utilisateur l'expérience <mark className="bg-white/10 text-white px-1 rounded">qui lui correspond parfaitement</mark>.</p>
+                      <p>Combiné à des boucles d'<strong className="text-white">A/B testing pilotées par l'IA</strong>, ce système apprend et s'optimise en permanence, garantissant une amélioration continue de vos métriques d'engagement et de conversion sans intervention manuelle.</p>
+                      <p className="text-white/40 text-sm italic border-l-2 border-white/10 pl-4">« Une expérience personnalisée transforme un visiteur en client fidèle. »</p>
+                    </div>
+                  )
                 }
               ].map((item, i) => (
                 <FadeInView key={i} delay={i * 0.1}>
                   <motion.div
                     whileHover={{ y: -10, backgroundColor: "rgba(255, 255, 255, 0.05)" }}
-                    className="p-10 border border-white/10 bg-white/[0.02] flex flex-col gap-10 group transition-all duration-500 h-full relative overflow-hidden rounded-3xl"
+                    onClick={() => setSelectedIA(item)}
+                    className="p-10 border border-white/10 bg-white/[0.02] flex flex-col gap-10 group transition-all duration-500 h-full relative overflow-hidden cursor-pointer"
                   >
                     <div className="absolute top-0 right-0 w-32 h-32 bg-white opacity-[0.01] rounded-bl-full transform translate-x-16 -translate-y-16 group-hover:scale-150 transition-transform duration-700" />
 
@@ -1240,18 +1615,19 @@ export default function App() {
                       <h4 className="text-lg font-display font-black uppercase tracking-tight text-white leading-tight">
                         {item.title}
                       </h4>
-                      <p className="text-sm text-white/50 group-hover:text-white/70 transition-colors leading-relaxed line-clamp-3 italic">
+                      <p className="text-sm text-white/50 group-hover:text-white/70 transition-colors leading-relaxed italic">
                         {item.desc}
                       </p>
                     </div>
 
                     <div className="mt-auto grid grid-cols-1 gap-2 pt-6 border-t border-white/5">
-                      {item.details.map((detail, j) => (
+                      {item.details.slice(0, 3).map((detail, j) => (
                         <div key={j} className="flex items-center gap-3 text-[10px] uppercase tracking-widest font-black text-white/30 group-hover:text-white/50">
                           <div className="w-1 h-1 bg-white/20 rounded-full" />
                           {detail}
                         </div>
                       ))}
+                      <div className="text-[9px] uppercase tracking-widest font-black text-white/20 group-hover:text-white/40 mt-1">Cliquer pour en savoir plus →</div>
                     </div>
                   </motion.div>
                 </FadeInView>
@@ -1320,7 +1696,7 @@ export default function App() {
                   <label className="text-[10px] uppercase tracking-[0.4em] font-black opacity-40">Email Professionnel</label>
                   <input
                     type="email"
-                    value={email}
+                    value={Mail}
                     onChange={handleEmailChange}
                     required
                     className={`w-full bg-transparent border-b ${emailError ? 'border-red-500' : 'border-white/10'} py-4 outline-none focus:border-white transition-all text-lg lg:text-xl font-light`}
@@ -1461,6 +1837,21 @@ export default function App() {
       <motion.div
         className="fixed top-0 left-0 right-0 h-[2px] bg-white z-[100] origin-left"
         style={{ scaleX: scrollYProgress }}
+      />
+
+      {/* WhatsApp Form Global */}
+      <WhatsAppForm
+        isOpen={isFormOpen}
+        onClose={() => setIsFormOpen(false)}
+        serviceLabel={formServiceLabel}
+      />
+
+      {/* IA Detail Page */}
+      <IADetailPage
+        item={selectedIA}
+        isOpen={!!selectedIA}
+        onClose={() => setSelectedIA(null)}
+        onContact={(label) => openForm(label)}
       />
     </div>
   );
